@@ -1,43 +1,38 @@
 ---
-const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
-import { Image } from "astro:assets";
-const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+interface Props {
+  title: string;
+  img?: string;
+  desc: string;
+  url: string;
+  target?: string;
+  badge?: string;
+}
+
+const { title, img, desc, url, target = "_self", badge } = Astro.props;
+
+function getBadgeClass(badgeText?: string) {
+  if (!badgeText) return "badge-easy";
+  const lower = badgeText.toLowerCase();
+  if (lower.includes("easy")) return "badge-easy";
+  if (lower.includes("medium")) return "badge-medium";
+  if (lower.includes("hard")) return "badge-hard";
+  return "badge-easy";
+}
 ---
 
-<div
-  class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
->
-  <a href={url} target={target}>
-    <div class="hero-content flex-col md:flex-row">
-      {
-        img && (
-          <Image
-            src={img}
-            width={750}
-            height={422}
-            format="webp"
-            alt={title}
-            class="max-w-full md:max-w-[13rem] rounded-lg"
-          />
-        )
-      }
-      <div class="grow w-full">
-        <h1 class="text-xl font-bold">
-          {title}
-          {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
-        </h1>
-        <p class="py-1 text-1xl">{desc}</p>
-        <div class="card-actions justify-end">
-          {
-            tags &&
-              tags.map((tag) => (
-                <a href={`${tag_url}/${tag}`} class="badge badge-outline">
-                  {tag}
-                </a>
-              ))
-          }
-        </div>
+<a href={url} target={target} class="block card-hover bg-cyber-card border border-white/10 rounded-xl p-5 my-3 group">
+  <div class="flex gap-5">
+    {img && (
+      <div class="w-36 h-20 overflow-hidden rounded-lg flex-shrink-0 bg-cyber-gray">
+        <img src={img} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
       </div>
+    )}
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1.5">
+        <h3 class="text-base font-semibold text-white group-hover:text-neon-green transition-colors truncate">{title}</h3>
+        {badge && <span class={`badge ${getBadgeClass(badge)}`}>{badge}</span>}
+      </div>
+      <p class="text-gray-400 text-sm line-clamp-2 leading-relaxed">{desc}</p>
     </div>
-  </a>
-</div>
+  </div>
+</a>

@@ -1,23 +1,53 @@
 ---
+interface Props {
+  sideBarActiveItemID?: string;
+}
+
 const { sideBarActiveItemID } = Astro.props;
-const activeClass = "bg-base-300"; // For primary color replace with `active` class
+
+const menuItems = [
+  { id: "home", i18n: "sidebar.home", icon: "home" },
+  { id: "writeups", i18n: "sidebar.writeups", icon: "writeups" },
+  { id: "cv", i18n: "sidebar.cv", icon: "cv" },
+  { id: "contact", i18n: "sidebar.contact", icon: "contact" },
+];
+
+function getIcon(icon: string, isActive: boolean) {
+  const color = isActive ? "text-neon-green" : "text-gray-500";
+  switch (icon) {
+    case "home":
+      return `<svg class="w-4 h-4 ${color}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`;
+    case "writeups":
+      return `<svg class="w-4 h-4 ${color}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
+    case "cv":
+      return `<svg class="w-4 h-4 ${color}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
+    case "contact":
+      return `<svg class="w-4 h-4 ${color}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`;
+    default:
+      return "";
+  }
+}
 ---
 
-<ul class="menu grow shrink menu-md overflow-y-auto">
-    <li><a class="py-3 text-base" id="home" href="/">Home</a></li>
-    <li><a class="py-3 text-base" id="blog" href="/blog/">Blog | WriteUps</a></li>
-    <li><a class="py-3 text-base" id="cv" href="/cv">CV</a></li>
-    <li>
-        <a
-            class="py-3 text-base"
-            href="mailto:be.morales@outlook.com"
-            target="_blank"
-            referrerpolicy="no-referrer-when-downgrade">Contact</a
-        >
-    </li>
-</ul>
-
-<script define:vars={{ sideBarActiveItemID: sideBarActiveItemID, activeClass: activeClass }}>
-const activeItemElem = document.getElementById(sideBarActiveItemID);
-activeItemElem && activeItemElem.classList.add(activeClass);
-</script>
+<nav class="flex-1">
+  <ul class="space-y-1">
+    {menuItems.map((item) => {
+      const isActive = sideBarActiveItemID === item.id;
+      return (
+        <li>
+          <a
+            href={`/${item.id === "home" ? "" : item.id}`}
+            class={`flex items-center gap-3 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
+              isActive
+                ? "text-neon-green bg-white/10"
+                : "text-gray-400 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <span set:html={getIcon(item.icon, isActive)} />
+            <span data-i18n={item.i18n}>{item.id === "home" ? "Home" : item.id === "writeups" ? "Blog | WriteUps" : item.id === "cv" ? "CV" : "Contact"}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>

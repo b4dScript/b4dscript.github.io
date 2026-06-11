@@ -3,45 +3,52 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HorizontalCard from "../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../lib/createSlug";
+import { PROFILE } from "../config";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const last_posts = posts.slice(0, 3);
+const latestPosts = posts.slice(0, 3);
 ---
 
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
-    <div class="text-xl py-1">Hey there 👋</div>
-    <div class="text-5xl font-bold">I'm Benjamin Morales</div>
-    <div class="text-3xl py-3 font-bold">Cybersecurity Analyst Jr.</div>
-    <div class="py-2">
-      <text class="text-lg">
-        This is a Personal Portfolio Website for sharing my skills and work
-        experience
-      </text>
-    </div>
-    <div class="mt-8">
-      <a class="btn" id="cv" href="/cv"> Check my CV!</a>
+    <p class="text-gray-500 mb-4 font-mono text-sm">
+      <span class="text-neon-green">$</span> <span data-i18n="home.command">whoami</span>
+    </p>
+    <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-1">
+      I'm {PROFILE.name}
+    </h1>
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+      {PROFILE.title}
+    </h2>
+    <p class="text-gray-400 text-base max-w-xl mb-8" data-i18n="home.description">
+      This is a Personal Portfolio Website for sharing my skills and work experience
+    </p>
+    <div class="flex flex-wrap gap-4">
+      <a class="btn-terminal px-8 py-3 text-sm" href="/cv" data-i18n="home.cvBtn">
+        Check my CV!
+      </a>
       <a
-        href="https://github.com/b4dScript"
+        href={PROFILE.github}
         target="_blank"
-        class="btn btn-outline ml-5"
+        class="btn-terminal-outline px-8 py-3 text-sm font-medium"
+        data-i18n="home.githubBtn"
       >
         My github
       </a>
     </div>
   </div>
 
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10">
+  <div class="mt-12">
+    <h3 class="text-xl font-bold text-white mb-6" data-i18n="home.latestTitle">
       Latest Posts - WriteUps
-    </div>
+    </h3>
   </div>
 
   {
-    last_posts.map((post) => (
+    latestPosts.map((post) => (
       <>
         <HorizontalCard
           title={post.data.title}
@@ -51,7 +58,6 @@ const last_posts = posts.slice(0, 3);
           target="_self"
           badge={post.data.badge}
         />
-        <div class="divider my-0" />
       </>
     ))
   }

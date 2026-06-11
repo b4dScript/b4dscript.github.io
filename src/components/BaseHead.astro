@@ -1,39 +1,32 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
-export interface Props {
-	title: string;
-	description: string;
-	image?: string;
-	ogType?: string;
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  ogType?: string;
 }
 
-const { title, description, image = '/social_img.webp', ogType = 'website' } = Astro.props;
+const { title, description, image, ogType } = Astro.props;
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<style>
+  html, body { background-color: #0d1117; color: #c9d1d9; }
+</style>
 <meta name="generator" content={Astro.generator} />
 
-<!-- Primary Meta Tags -->
 <title>{title}</title>
-<meta name="title" content={title} />
 <meta name="description" content={description} />
+<meta name="og:title" content={title || SITE_TITLE} />
+<meta name="og:description" content={description || SITE_DESCRIPTION} />
+{ogType && <meta property="og:type" content={ogType} />}
+{image && <meta property="og:image" content={image} />}
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content={ogType} />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title || SITE_TITLE} />
+<meta name="twitter:description" content={description || SITE_DESCRIPTION} />
+{image && <meta name="twitter:image" content={image} />}

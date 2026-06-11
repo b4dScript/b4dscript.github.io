@@ -1,43 +1,40 @@
 ---
-import { type BlogSchema } from "../content/config";
 import BaseLayout from "./BaseLayout.astro";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 
-export interface Props extends BlogSchema {}
-
-const { title, description, pubDate, updatedDate, heroImage, badge, tags = [] } = Astro.props;
-dayjs.extend(localizedFormat);
-const displayDate = dayjs(pubDate).format("ll")
-import { Image } from "astro:assets";
+const { title, description, pubDate, heroImage, badge, tags, updatedDate } = Astro.props;
+const formattedDate = pubDate.toLocaleDateString("en-us", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
 ---
 
-<BaseLayout title={title} description={description} image={heroImage}, ogType="article">
-  {heroImage && <Image width={750} height={422} format="webp" src={heroImage} alt={title} class="w-full mb-12" />}
-  <main class="md:flex md:justify-center">
-    <article class="prose prose-lg max-w-[1250px] prose-img:mx-auto">
-      <h1 class="title my-2 text-4xl font-bold">{title}</h1>
-      {pubDate && <time>{displayDate}</time>}
-      <br />
-      {badge && <div class="badge badge-secondary my-1">{badge}</div>}
-      {
-        tags &&
-          tags.map((tag) => (
-            <a href={`/blog/tag/${tag}`} class="badge badge-outline ml-2 no-underline">
-              {tag}
-            </a>
-          ))
-      }
-      {
-        updatedDate && (
-          <div>
-            {" "}
-            Last updated on <time>{updatedDate}</time>{" "}
-          </div>
-        )
-      }
-      <div class="divider my-2"></div>
+<BaseLayout title={title} description={description} sideBarActiveItemID="writeups">
+  <article>
+    <div class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        {badge && <span class="badge badge-easy">{badge}</span>}
+        <time class="text-gray-400 text-sm">{formattedDate}</time>
+        {updatedDate && <span class="text-gray-400 text-sm">(updated: {updatedDate})</span>}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">{title}</h1>
+      {tags && tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {tags.map((tag) => (
+            <span class="badge badge-easy text-xs">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {heroImage && (
+      <div class="mb-8 rounded-xl overflow-hidden border border-white/10">
+        <img src={heroImage} alt={title} class="w-full object-cover" />
+      </div>
+    )}
+
+    <div class="prose prose-invert prose-p:text-gray-400 prose-li:text-gray-400 prose-headings:text-white prose-a:text-neon-green prose-code:text-neon-green prose-pre:bg-cyber-gray prose-pre:border prose-pre:border-white/10 prose-strong:text-neon-green max-w-none">
       <slot />
-    </article>
-  </main>
+    </div>
+  </article>
 </BaseLayout>

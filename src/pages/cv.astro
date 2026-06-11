@@ -3,79 +3,121 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TimeLineElement from "../components/cv/TimeLine.astro";
 ---
 
-<BaseLayout title="Resume" sideBarActiveItemID="cv">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Profile</div>
+<BaseLayout title="CV / Resume" sideBarActiveItemID="cv">
+  <div class="mb-8">
+    <p class="text-gray-500 mb-2 font-mono text-sm">
+      <span class="text-neon-green">$</span> <span data-i18n="cv.command">cat cv.md</span>
+    </p>
+    <div class="section-title text-3xl font-bold text-white" data-i18n="cv.title">Profile</div>
   </div>
 
-  <div class="mb-10 text-justify">
+  <div class="mb-12 text-gray-400 text-justify bg-cyber-card border border-white/10 rounded-xl p-6" data-i18n="cv.description">
     I have gained professional experience working in networking companies and have a solid foundation in programming. Currently, I am focused on advancing my expertise in cybersecurity, with a particular emphasis on penetration testing for businesses. Although I consider myself at a junior level, I have established a strong knowledge base that enables me to continue developing independently. I am currently pursuing the Penetration Tester Specialist certification through the Hack The Box Academy, and I am committed to continuous learning and growth in this dynamic field.
   </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Education</div>
+  <div class="mb-6">
+    <div class="section-title text-2xl font-bold text-white" data-i18n="cv.education">Education</div>
   </div>
 
-  <div class="time-line-container grid gap-4 mb-10">
+  <div class="mb-12 space-y-4">
     <TimeLineElement
       title="Programmer Analyst"
+      titleI18n="cv.education1.title"
       subtitle="[2021] to [2023] at [Duoc UC], [Santiago], [Chile]"
+      subtitleI18n="cv.education1.subtitle"
     />
     <TimeLineElement
-      title="Penetration Tester Especialist Path"
+      title="Penetration Tester Specialist Path"
+      titleI18n="cv.education2.title"
       subtitle="[Today] at [Hack The Box Academy]"
+      subtitleI18n="cv.education2.subtitle"
     />
   </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Experience</div>
+  <div class="mb-6">
+    <div class="section-title text-2xl font-bold text-white" data-i18n="cv.experience">Experience</div>
   </div>
 
-  <div class="time-line-container mb-10">
+  <div class="mb-12 space-y-4">
     <TimeLineElement
       title="Network Technician Apprentice | Posem Spa"
+      titleI18n="cv.exp1.title"
       subtitle="From [March 2018] to [April 2019] at [Posem Spa], [Santiago], [Chile]"
+      subtitleI18n="cv.exp1.subtitle"
+      descI18n="cv.exp1.description"
     >
     I worked as a network technician apprentice, learning the basics of structured cabling and switch configuration, at the level of large companies (Valle Nevado, Cinépolis, Chilean state immigration branches).
     </TimeLineElement>
     <TimeLineElement
       title="Telecommunications and Networking Technician | Nco Chile"
-      subtitle="From [May 2023] to [June 2024] at [Logic-net | NCO], [Santigo], [Chile]"
+      titleI18n="cv.exp2.title"
+      subtitle="From [May 2023] to [June 2024] at [Logic-net | NCO], [Santiago], [Chile]"
+      subtitleI18n="cv.exp2.subtitle"
+      descI18n="cv.exp2.description"
     >
     Responsible for the installation of CCTV systems, structured cabling (Coaxial, UTP Cat6 - Cat5e), installation and certification of network points, Patch Panels and Racks, physical topologies, and IT support for various affiliated companies.
     </TimeLineElement>
     <TimeLineElement
       title="Systems Assistant | Audiomusica"
+      titleI18n="cv.exp3.title"
       subtitle="From [February 2025] to [December 2025] at [Audiomusica], [Santiago], [Chile]"
+      subtitleI18n="cv.exp3.subtitle"
+      descI18n="cv.exp3.description"
     >
     Ensured wired and wireless network infrastructure security and perimeter security management. Provided N2 Critical Support on SAP HANA, resolving incidents and optimizing operational reports. Technical administration of CCTV surveillance systems.
     </TimeLineElement>
-
   </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Certifications</div>
+  <div class="mb-6">
+    <div class="section-title text-2xl font-bold text-white" data-i18n="cv.certifications">Certifications</div>
   </div>
 
-  <ul class="list-disc mx-6 mb-10 grid gap-2">
+  <ul class="list-disc mx-6 mb-12 space-y-2 text-gray-400">
     <li>
-      <a href="https://www.credly.com/badges/bbbf4e29-8748-49ff-9867-888f8045416b/public_url" target="_blank"> Cisco | Junior Cybersecurity Analyst</a>
+      <a href="https://www.credly.com/badges/bbbf4e29-8748-49ff-9867-888f8045416b/public_url" target="_blank" class="text-neon-green hover:underline" data-i18n="cv.cert1">
+        Cisco | Junior Cybersecurity Analyst
+      </a>
     </li>
   </ul>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Skills</div>
+  <div class="mb-6">
+    <div class="section-title text-2xl font-bold text-white" data-i18n="cv.skills">Skills</div>
   </div>
 
-  <ul class="list-disc md:columns-5 columns-2 mx-6">
-    <li>Vulnerability Assessments</li>
-    <li>Enumeration With Nmap</li>
-    <li>Python Scripting</li>
-    <li>Bash Scripting</li>
-    <li>Virtualization</li>
-    <li>Linux, Windows</li>
-    <li>Sql inyections</li>
-    <li>Pivoting, Tunneling</li>
-    
-  </ul>
+  <div class="grid md:grid-cols-2 gap-4 mb-12">
+    <div class="bg-cyber-card border border-white/10 rounded-xl p-5">
+      <h4 class="text-neon-green font-bold mb-3 terminal-glow" data-i18n="cv.skillsPt">Penetration Testing</h4>
+      <ul class="list-disc mx-4 space-y-1 text-gray-400 text-sm">
+        <li>Vulnerability Assessments</li>
+        <li>Enumeration With Nmap</li>
+        <li>SQL Injections</li>
+        <li>Pivoting, Tunneling</li>
+        <li>Reverse Shells</li>
+      </ul>
+    </div>
+    <div class="bg-cyber-card border border-white/10 rounded-xl p-5">
+      <h4 class="text-neon-green font-bold mb-3 terminal-glow" data-i18n="cv.skillsSc">Scripting</h4>
+      <ul class="list-disc mx-4 space-y-1 text-gray-400 text-sm">
+        <li>Python Scripting</li>
+        <li>Bash Scripting</li>
+      </ul>
+    </div>
+    <div class="bg-cyber-card border border-white/10 rounded-xl p-5">
+      <h4 class="text-neon-green font-bold mb-3 terminal-glow" data-i18n="cv.skillsSy">Systems</h4>
+      <ul class="list-disc mx-4 space-y-1 text-gray-400 text-sm">
+        <li>Linux, Windows</li>
+        <li>Virtualization</li>
+        <li>Network Infrastructure</li>
+      </ul>
+    </div>
+    <div class="bg-cyber-card border border-white/10 rounded-xl p-5">
+      <h4 class="text-neon-green font-bold mb-3 terminal-glow" data-i18n="cv.skillsTl">Tools</h4>
+      <ul class="list-disc mx-4 space-y-1 text-gray-400 text-sm">
+        <li>Nmap, CrackMapExec</li>
+        <li>Hydra, Hashcat</li>
+        <li>Impacket, Metasploit</li>
+        <li>Chisel, Burp Suite</li>
+      </ul>
+    </div>
+  </div>
 </BaseLayout>

@@ -2,7 +2,7 @@
 title: "Hack The Box | DevHub"
 description: "DevHub is a medium Linux machine exploiting CVE-2026-23744 in MCPJam Inspector v1.4.2 for unauthenticated RCE. Internal enumeration reveals a Jupyter notebook and an OPSMCP API, leading to credential dumping and root via SSH key."
 pubDate: "Jun 08 2026"
-heroImage: "/devhub.png"
+heroImage: "/devhub.jpg"
 badge: "Linux - Medium"
 tags: ["CVE-2026-23744","MCPJam","Jupyter","Chisel","API","Reverse Shell","PrivEsc","Linux","HTB"]
 ---

@@ -1,0 +1,163 @@
+export const translations = {
+  en: {
+    sidebar: {
+      home: "Home",
+      writeups: "Blog | WriteUps",
+      cv: "CV",
+      contact: "Contact",
+    },
+    home: {
+      command: "whoami",
+      name: "I'm Benjamin Morales",
+      title: "Cybersecurity Analyst Jr.",
+      description: "This is a Personal Portfolio Website for sharing my skills and work experience",
+      cvBtn: "Check my CV!",
+      githubBtn: "My github",
+      latestTitle: "Latest Posts - WriteUps",
+      viewAll: "View all writeups",
+    },
+    writeups: {
+      command: "ls writeups/",
+      title: "Writeups",
+      published: "writeups published | HackTheBox, HTB Academy & more",
+    },
+    cv: {
+      command: "cat cv.md",
+      title: "Profile",
+      description: "I have gained professional experience working in networking companies and have a solid foundation in programming. Currently, I am focused on advancing my expertise in cybersecurity, with a particular emphasis on penetration testing for businesses. Although I consider myself at a junior level, I have established a strong knowledge base that enables me to continue developing independently. I am currently pursuing the Penetration Tester Specialist certification through the Hack The Box Academy, and I am committed to continuous learning and growth in this dynamic field.",
+      education: "Education",
+      education1: {
+        title: "Programmer Analyst",
+        subtitle: "[2021] to [2023] at [Duoc UC], [Santiago], [Chile]",
+      },
+      education2: {
+        title: "Penetration Tester Specialist Path",
+        subtitle: "[Today] at [Hack The Box Academy]",
+      },
+      experience: "Experience",
+      exp1: {
+        title: "Network Technician Apprentice | Posem Spa",
+        subtitle: "From [March 2018] to [April 2019] at [Posem Spa], [Santiago], [Chile]",
+        description: "I worked as a network technician apprentice, learning the basics of structured cabling and switch configuration, at the level of large companies (Valle Nevado, Cinépolis, Chilean state immigration branches).",
+      },
+      exp2: {
+        title: "Telecommunications and Networking Technician | Nco Chile",
+        subtitle: "From [May 2023] to [June 2024] at [Logic-net | NCO], [Santiago], [Chile]",
+        description: "Responsible for the installation of CCTV systems, structured cabling (Coaxial, UTP Cat6 - Cat5e), installation and certification of network points, Patch Panels and Racks, physical topologies, and IT support for various affiliated companies.",
+      },
+      exp3: {
+        title: "Systems Assistant | Audiomusica",
+        subtitle: "From [February 2025] to [December 2025] at [Audiomusica], [Santiago], [Chile]",
+        description: "Ensured wired and wireless network infrastructure security and perimeter security management. Provided N2 Critical Support on SAP HANA, resolving incidents and optimizing operational reports. Technical administration of CCTV surveillance systems.",
+      },
+      certifications: "Certifications",
+      cert1: "Cisco | Junior Cybersecurity Analyst",
+      skills: "Skills",
+      skillsPt: "Penetration Testing",
+      skillsSc: "Scripting",
+      skillsSy: "Systems",
+      skillsTl: "Tools",
+    },
+    contact: {
+      command: "cat contact.md",
+      title: "Contact",
+      subtitle: "Interested in my skills? Let's connect.",
+      github: "GitHub",
+      email: "Email",
+      emailSub: "Send me a message",
+      htb: "HackTheBox",
+      echo: "echo \"Let's work together\"",
+      message: "I'm currently looking for opportunities in cybersecurity, particularly in penetration testing and security research. Feel free to reach out through any of the channels above.",
+    },
+    footer: {
+      rights: "All rights reserved",
+    },
+    404: {
+      title: "Page Not Found",
+      message: "The page you're looking for doesn't exist",
+      btn: "cd /home",
+    },
+  },
+  es: {
+    sidebar: {
+      home: "Inicio",
+      writeups: "Blog | WriteUps",
+      cv: "CV",
+      contact: "Contacto",
+    },
+    home: {
+      command: "whoami",
+      name: "Soy Benjamin Morales",
+      title: "Analista de Ciberseguridad Jr.",
+      description: "Este es un sitio web de portafolio personal para compartir mis habilidades y experiencia laboral",
+      cvBtn: "Ver mi CV!",
+      githubBtn: "Mi github",
+      latestTitle: "Últimos Posts - WriteUps",
+      viewAll: "Ver todos los writeups",
+    },
+    writeups: {
+      command: "ls writeups/",
+      title: "Writeups",
+      published: "writeups publicados | HackTheBox, HTB Academy y más",
+    },
+    cv: {
+      command: "cat cv.md",
+      title: "Perfil",
+      description: "He adquirido experiencia profesional trabajando en empresas de redes y tengo una base sólida en programación. Actualmente, estoy enfocado en avanzar mi experiencia en ciberseguridad, con un énfasis particular en pruebas de penetración para empresas. Aunque me considero en un nivel junior, he establecido una base de conocimiento sólida que me permite seguir desarrollándome de forma independiente. Actualmente estoy cursando la certificación de Especialista en Pruebas de Penetración a través de Hack The Box Academy, y estoy comprometido con el aprendizaje continuo y el crecimiento en este campo dinámico.",
+      education: "Educación",
+      education1: {
+        title: "Analista Programador",
+        subtitle: "[2021] a [2023] en [Duoc UC], [Santiago], [Chile]",
+      },
+      education2: {
+        title: "Penetration Tester Specialist Path",
+        subtitle: "[Actualmente] at [Hack The Box Academy]",
+      },
+      experience: "Experiencia",
+      exp1: {
+        title: "Aprendiz de Técnico de Redes | Posem Spa",
+        subtitle: "Desde [Marzo 2018] hasta [Abril 2019] en [Posem Spa], [Santiago], [Chile]",
+        description: "Trabajé como aprendiz de técnico de redes, aprendiendo los fundamentos del cableado estructurado y configuración de switches, a nivel de grandes empresas (Valle Nevado, Cinépolis, sucursales de inmigración del estado chileno).",
+      },
+      exp2: {
+        title: "Técnico de Telecomunicaciones y Redes | Nco Chile",
+        subtitle: "Desde [Mayo 2023] hasta [Junio 2024] en [Logic-net | NCO], [Santiago], [Chile]",
+        description: "Responsable de la instalación de sistemas CCTV, cableado estructurado (Coaxial, UTP Cat6 - Cat5e), instalación y certificación de puntos de red, Patch Panels y Racks, topologías físicas y soporte IT para diversas empresas afiliadas.",
+      },
+      exp3: {
+        title: "Asistente de Sistemas | Audiomusica",
+        subtitle: "Desde [Febrero 2025] hasta [Diciembre 2025] en [Audiomusica], [Santiago], [Chile]",
+        description: "Aseguré la infraestructura de red cableada e inalámbrica y la gestión de seguridad perimetral. Brindé soporte crítico N2 en SAP HANA, resolviendo incidencias y optimizando reportes operativos. Administración técnica de sistemas de vigilancia CCTV.",
+      },
+      certifications: "Certificaciones",
+      cert1: "Cisco | Junior Cybersecurity Analyst",
+      skills: "Habilidades",
+      skillsPt: "Pruebas de Penetración",
+      skillsSc: "Scripting",
+      skillsSy: "Sistemas",
+      skillsTl: "Herramientas",
+    },
+    contact: {
+      command: "cat contact.md",
+      title: "Contacto",
+      subtitle: "¿Interesado en mis habilidades? Conectémonos.",
+      github: "GitHub",
+      email: "Email",
+      emailSub: "Envíame un mensaje",
+      htb: "HackTheBox",
+      echo: "echo \"Trabajemos juntos\"",
+      message: "Actualmente estoy buscando oportunidades en ciberseguridad, particularmente en pruebas de penetración e investigación de seguridad. No dudes en contactarme a través de cualquiera de los canales anteriores.",
+    },
+    footer: {
+      rights: "Todos los derechos reservados",
+    },
+    404: {
+      title: "Página No Encontrada",
+      message: "La página que buscas no existe",
+      btn: "cd /home",
+    },
+  },
+};
+
+export type Lang = "en" | "es";
+export type TranslationKey = keyof typeof translations.en;
