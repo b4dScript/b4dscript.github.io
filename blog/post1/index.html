@@ -1,5 +1,64 @@
-<!DOCTYPE html><html lang="en" data-theme="cybersec"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0a0e14"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.16.19"><title>HTB Academy | Attacking Common Services Lab 3</title><meta name="description" content="This is a hard lab writeup from the htb module attacking common services"><meta name="og:title" content="HTB Academy | Attacking Common Services Lab 3"><meta name="og:description" content="This is a hard lab writeup from the htb module attacking common services"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="HTB Academy | Attacking Common Services Lab 3"><meta name="twitter:description" content="This is a hard lab writeup from the htb module attacking common services"><link rel="stylesheet" href="/_astro/_slug_.BLFQ8Y2G.css">
-<link rel="stylesheet" href="/_astro/_slug_.CyLHYSt8.css"><script type="module" src="/_astro/hoisted.CoBk3TA5.js"></script></head> <body> <div class="bg-base-100 drawer lg:drawer-open min-h-screen"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100 flex flex-col min-h-screen"> <header class="navbar bg-cyber-gray/80 backdrop-blur-sm border-b border-white/5 px-4 lg:hidden"> <div class="flex-1"> <label for="my-drawer" class="btn btn-ghost text-gray-400"> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 15h16"></path> </svg> </label> </div> </header> <div class="md:flex md:justify-center flex-1"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] w-full">  <article> <div class="mb-8"> <div class="flex items-center gap-3 mb-4"> <span class="badge badge-easy">Windows - Hard</span> <time class="text-gray-400 text-sm">Nov 18, 2024</time>  </div> <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">HTB Academy | Attacking Common Services Lab 3</h1> <div class="flex flex-wrap gap-2 mt-4"> <span class="badge badge-easy text-xs">Exploitation</span><span class="badge badge-easy text-xs">Sql</span><span class="badge badge-easy text-xs">MSSQL</span><span class="badge badge-easy text-xs">Bruteforcing</span><span class="badge badge-easy text-xs">Windows</span><span class="badge badge-easy text-xs">Smb</span><span class="badge badge-easy text-xs">Privesc</span><span class="badge badge-easy text-xs">Reverse Shell</span> </div> </div> <div class="mb-8 rounded-xl overflow-hidden border border-white/10"> <img src="https://academy.hackthebox.com/storage/modules/116/logo.png?t=1730242916" alt="HTB Academy | Attacking Common Services Lab 3" class="w-full object-cover"> </div> <div class="prose prose-invert prose-p:text-gray-400 prose-li:text-gray-400 prose-headings:text-white prose-a:text-neon-green prose-code:text-neon-green prose-pre:bg-cyber-gray prose-pre:border prose-pre:border-white/10 prose-strong:text-neon-green max-w-none">  <ul>
+<!DOCTYPE html><html lang="en" data-theme="cybersec"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#070a11"><meta name="supported-color-schemes" content="dark"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><script>
+  // === Proteccion agresiva contra Dark Reader ===
+  (function() {
+    'use strict';
+
+    // Funcion para limpiar filtros y atributos de Dark Reader
+    function cleanDarkReader() {
+      try {
+        // Quitar filtros invert/hue-rotate de cualquier elemento
+        var all = document.querySelectorAll('*');
+        for (var i = 0; i < all.length; i++) {
+          var el = all[i];
+          var s = el.getAttribute('style') || '';
+          if (s.indexOf('invert') !== -1 || s.indexOf('hue-rotate') !== -1 || s.indexOf('filter') !== -1) {
+            el.style.setProperty('filter', 'none', 'important');
+            el.style.setProperty('-webkit-filter', 'none', 'important');
+          }
+          // Quitar atributos data-darkreader-*
+          var attrs = el.attributes;
+          for (var j = attrs.length - 1; j >= 0; j--) {
+            var name = attrs[j].name;
+            if (name.indexOf('data-darkreader') === 0) {
+              el.removeAttribute(name);
+            }
+          }
+        }
+        // Resetear html
+        var html = document.documentElement;
+        html.style.setProperty('filter', 'none', 'important');
+        html.style.setProperty('-webkit-filter', 'none', 'important');
+        html.style.setProperty('color-scheme', 'dark', 'important');
+      } catch (e) {}
+    }
+
+    // Ejecutar inmediatamente
+    cleanDarkReader();
+
+    // Reaplicar cada 100ms durante 3 segundos
+    var count = 0;
+    var interval = setInterval(function() {
+      cleanDarkReader();
+      count++;
+      if (count > 30) clearInterval(interval);
+    }, 100);
+
+    // Observer para cambios
+    var obs = new MutationObserver(function() { cleanDarkReader(); });
+    obs.observe(document.documentElement, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ['style', 'data-darkreader-mode', 'data-darkreader-inline', 'data-darkreader-inline-bgcolor', 'data-darkreader-inline-color', 'class']
+    });
+
+    // Reaplicar al cargar
+    window.addEventListener('DOMContentLoaded', cleanDarkReader);
+    window.addEventListener('load', cleanDarkReader);
+    document.addEventListener('DOMContentLoaded', cleanDarkReader);
+  })();
+</script><meta name="generator" content="Astro v4.16.19"><title>HTB Academy | Attacking Common Services Lab 3</title><meta name="description" content="This is a hard lab writeup from the htb module attacking common services"><meta name="og:title" content="HTB Academy | Attacking Common Services Lab 3"><meta name="og:description" content="This is a hard lab writeup from the htb module attacking common services"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="HTB Academy | Attacking Common Services Lab 3"><meta name="twitter:description" content="This is a hard lab writeup from the htb module attacking common services"><link rel="stylesheet" href="/_astro/_slug_.BY6U9hnk.css">
+<link rel="stylesheet" href="/_astro/_slug_.ycDXdAeY.css"><script type="module" src="/_astro/hoisted.CoBk3TA5.js"></script></head> <body> <div class="bg-base-100 drawer lg:drawer-open min-h-screen"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100 flex flex-col min-h-screen"> <header class="navbar bg-cyber-gray/80 backdrop-blur-sm border-b border-white/5 px-4 lg:hidden"> <div class="flex-1"> <label for="my-drawer" class="btn btn-ghost text-gray-400"> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 15h16"></path> </svg> </label> </div> </header> <div class="md:flex md:justify-center flex-1"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] w-full">  <article> <div class="mb-8"> <div class="flex items-center gap-3 mb-4"> <span class="badge badge-easy">Windows - Hard</span> <time class="text-gray-400 text-sm">Nov 18, 2024</time>  </div> <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">HTB Academy | Attacking Common Services Lab 3</h1> <div class="flex flex-wrap gap-2 mt-4"> <span class="badge badge-easy text-xs">Exploitation</span><span class="badge badge-easy text-xs">Sql</span><span class="badge badge-easy text-xs">MSSQL</span><span class="badge badge-easy text-xs">Bruteforcing</span><span class="badge badge-easy text-xs">Windows</span><span class="badge badge-easy text-xs">Smb</span><span class="badge badge-easy text-xs">Privesc</span><span class="badge badge-easy text-xs">Reverse Shell</span> </div> </div> <div class="mb-8 rounded-xl overflow-hidden border border-white/10"> <img src="https://academy.hackthebox.com/storage/modules/116/logo.png?t=1730242916" alt="HTB Academy | Attacking Common Services Lab 3" class="w-full object-cover"> </div> <div class="prose prose-invert prose-p:text-gray-400 prose-li:text-gray-400 prose-headings:text-white prose-a:text-neon-green prose-code:text-neon-green prose-pre:bg-cyber-gray prose-pre:border prose-pre:border-white/10 prose-strong:text-neon-green max-w-none">  <ul>
 <li>
 <ol>
 <li>Nmap Scanning TCP OPEN Ports:</li>
