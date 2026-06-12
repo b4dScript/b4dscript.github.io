@@ -6,7 +6,7 @@ export const TRANSITION_API = false;
 export const PROFILE = {
   name: 'Benjamin Morales',
   alias: 'b4dScript',
-  title: 'Cybersecurity Analyst Jr.',
+  title: 'Cybersecurity Analyst',
   description: 'Penetration Tester in training with experience in network infrastructure and vulnerability assessment. Currently pursuing the Penetration Tester Specialist certification through Hack The Box Academy.',
   github: 'https://github.com/b4dScript',
   email: 'mailto:be.morales@outlook.com',
