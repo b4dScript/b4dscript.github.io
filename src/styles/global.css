@@ -7,7 +7,7 @@
 @layer base {
   * {
     scrollbar-width: thin;
-    scrollbar-color: #00C853 #161b22;
+    scrollbar-color: #00C853 #11161d;
   }
 
   *::-webkit-scrollbar {
@@ -15,7 +15,7 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: #161b22;
+    background: #11161d;
   }
 
   *::-webkit-scrollbar-thumb {
@@ -25,7 +25,7 @@
 
   body {
     @apply font-sans;
-    background-color: #0d1117;
+    background-color: #0a0e14;
   }
 
   a {
@@ -42,7 +42,7 @@
   align-items: center;
   justify-content: center;
   background-color: #00C853;
-  color: #0d1117;
+  color: #0a0e14;
   font-weight: 600;
   font-size: 0.875rem;
   padding: 0.75rem 2rem;
@@ -55,7 +55,7 @@
 
 .btn-terminal:hover {
   box-shadow: 0 0 25px rgba(0, 200, 83, 0.6);
-  color: #0d1117;
+  color: #0a0e14;
 }
 
 .btn-terminal-outline {

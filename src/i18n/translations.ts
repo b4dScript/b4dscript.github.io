@@ -24,7 +24,7 @@ export const translations = {
     cv: {
       command: "cat cv.md",
       title: "Profile",
-      description: "I have gained professional experience working in networking companies and have a solid foundation in programming. Currently, I am focused on advancing my expertise in cybersecurity, with a particular emphasis on penetration testing for businesses. Although I consider myself at a junior level, I have established a strong knowledge base that enables me to continue developing independently. I am currently pursuing the Penetration Tester Specialist certification through the Hack The Box Academy, and I am committed to continuous learning and growth in this dynamic field.",
+      description: "Hi! I'm Benjamín Morales, a Systems Analyst specializing in network infrastructure and cybersecurity. My background includes securing corporate networks, managing critical systems like SAP HANA, and mastering Linux and Windows environments. Currently, I am channeling this experience into offensive security, focusing on vulnerability assessments and penetration testing (actively pursuing the HTB CPTS certification). I combine a deep understanding of networking with Python and Bash scripting",
       education: "Education",
       education1: {
         title: "Programmer Analyst",
@@ -103,7 +103,7 @@ export const translations = {
     cv: {
       command: "cat cv.md",
       title: "Perfil",
-      description: "He adquirido experiencia profesional trabajando en empresas de redes y tengo una base sólida en programación. Actualmente, estoy enfocado en avanzar mi experiencia en ciberseguridad, con un énfasis particular en pruebas de penetración para empresas. Aunque me considero en un nivel junior, he establecido una base de conocimiento sólida que me permite seguir desarrollándome de forma independiente. Actualmente estoy cursando la certificación de Especialista en Pruebas de Penetración a través de Hack The Box Academy, y estoy comprometido con el aprendizaje continuo y el crecimiento en este campo dinámico.",
+      description: "Soy Benjamín Morales, un Analista de Sistemas especializado en infraestructura de redes y ciberseguridad. Mi trayectoria me ha permitido asegurar redes corporativas, gestionar sistemas críticos como SAP HANA y dominar la administración de entornos Linux y Windows. Actualmente, estoy volcando toda esa experiencia en el mundo de la seguridad ofensiva, especializándome en el análisis de vulnerabilidades y pruebas de penetración (actualmente preparando la certificación HTB CPTS). Combino un profundo conocimiento de redes con la automatización en Python y Bash",
       education: "Educación",
       education1: {
         title: "Analista Programador",
